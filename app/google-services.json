@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "338634741854",
+    "project_id": "gstarff-f0a24",
+    "storage_bucket": "gstarff-f0a24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338634741854:android:2f44402f274f9605cf3ccf",
+        "android_client_info": {
+          "package_name": "com.bidding.khela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338634741854-d0tms7gjmf32vcs4n6d60p1aqdthpo9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlVOpyeoZ8QyZkkrPbMCSAQNm3z_nS7Q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338634741854-d0tms7gjmf32vcs4n6d60p1aqdthpo9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_header">#01063D</color>
+    <color name="app_footer">#040D7A</color>
+    <color name="purple_50">#E8EEFF</color>
+    <color name="purple_200">#040D7A</color>
+    <color name="purple_300">#01063D</color>
+    <color name="purple_500">@color/app_header</color>
+    <color name="purple_700">@color/app_footer</color>
+    <color name="teal_200">#040D7A</color>
+    <color name="teal_700">@color/app_header</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bottom_nav_unselected">#B3FFFFFF</color>
+    <color name="ripple_on_primary">#33FFFFFF</color>
+
+    <color name="header1">#0F172A</color>
+    <color name="header2">@color/app_header</color>
+    <color name="header3">#475569</color>
+    <color name="header4">#64748B</color>
+    <color name="header5">#94A3B8</color>
+
+    <color name="chart_background">#F6F4F1</color>
+    <color name="chart_card">#FFFFFF</color>
+    <color name="chart_header_start">@color/app_header</color>
+    <color name="chart_header_end">@color/app_header</color>
+    <color name="chart_chip_selected">@color/app_header</color>
+    <color name="chart_chip_unselected_bg">#FFFFFF</color>
+    <color name="chart_chip_unselected_text">#334155</color>
+    <color name="chart_empty_bg">#EEF2F6</color>
+    <color name="chart_empty_text">#94A3B8</color>
+    <color name="chart_patti_text">#1E293B</color>
+    <color name="chart_patti_odd">#ECFDF8</color>
+    <color name="chart_patti_even">#FFFFFF</color>
+    <color name="chart_single_odd">#0F766E</color>
+    <color name="chart_single_even">#115E59</color>
+    <color name="chart_stroke">#D7E8E4</color>
+    <color name="chart_accent">#F59E0B</color>
+    <color name="chart_date_start">#7C5CFF</color>
+    <color name="chart_date_end">#5B8DEF</color>
+    <color name="ripple_light">#1A040D7A</color>
+    <color name="input_stroke">#CDD5E1</color>
+    <color name="red_color">#990000</color>
+</resources>

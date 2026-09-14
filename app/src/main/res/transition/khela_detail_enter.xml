@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="340"
+    android:interpolator="@android:anim/decelerate_interpolator">
+    <fade android:duration="220" />
+    <slide
+        android:duration="340"
+        android:slideEdge="bottom">
+        <targets>
+            <target android:excludeId="@android:id/statusBarBackground" />
+            <target android:excludeId="@android:id/navigationBarBackground" />
+            <target android:excludeId="@id/detail_header" />
+        </targets>
+    </slide>
+</transitionSet>

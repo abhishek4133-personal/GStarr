@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chart_background"
+    android:id="@+id/detail_root"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/detail_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_header"
+        android:elevation="6dp"
+        android:minHeight="72dp"
+        android:paddingStart="@dimen/spacing_tiny"
+        android:paddingTop="@dimen/spacing_small"
+        android:paddingEnd="@dimen/spacing_standard"
+        android:paddingBottom="@dimen/spacing_standard"
+        android:transitionName="khela_chart_header">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/khela_common_back"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_khela_back" />
+
+        <ImageView
+            android:id="@+id/calendarIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignTop="@id/dateHeader"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@id/back"
+            android:contentDescription="@string/khela_chart_title"
+            android:src="@drawable/ic_khela_calendar" />
+
+        <TextView
+            android:id="@+id/dateHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_toEndOf="@id/calendarIcon"
+            android:layout_toStartOf="@id/weekday"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="02 Sep 2024" />
+
+        <TextView
+            android:id="@+id/weekday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/dateHeader"
+            android:layout_alignParentEnd="true"
+            android:shadowColor="#4D000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="Monday" />
+
+        <TextView
+            android:id="@+id/detail_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dateHeader"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_toEndOf="@id/back"
+            android:text="@string/khela_detail_subtitle"
+            android:textColor="#CCFFFFFF"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/spacing_standard"
+        android:paddingTop="@dimen/spacing_standard"
+        android:paddingEnd="@dimen/spacing_standard"
+        android:paddingBottom="@dimen/spacing_large">
+
+        <LinearLayout
+            android:id="@+id/slots_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:showDividers="none" />
+    </ScrollView>
+</LinearLayout>

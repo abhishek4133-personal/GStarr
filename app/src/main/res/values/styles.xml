@@ -1,0 +1,125 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/chart_accent</item>
+        <item name="android:windowBackground">@color/chart_background</item>
+        <item name="android:textSize">16dp</item>
+
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="WrapLayout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="sub_header_seven" parent="WrapLayout">
+        <item name="android:textColor">@color/header2</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="sub_header_nine" parent="WrapLayout">
+        <item name="android:textColor">@color/header2</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="sub_header_ten" parent="WrapLayout">
+        <item name="android:textColor">@color/header2</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="sub_header_eleven" parent="WrapLayout">
+        <item name="android:textColor">@color/header1</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
+    <style name="header_action_bar" parent="WrapLayout">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/header1</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="sub_header_action_bar" parent="WrapLayout">
+        <item name="android:textColor">@color/header1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="nav_text" parent="WrapLayout">
+        <item name="android:textColor">@color/header4</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="KhelaChartColumn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">3dp</item>
+    </style>
+
+    <style name="KhelaChartPatti">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">22dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">3</item>
+        <item name="android:textColor">@color/chart_patti_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="KhelaChartSingle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="KhelaScreenTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="KhelaLoginTextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/admin_input_stroke</item>
+        <item name="hintTextColor">@color/purple_500</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="startIconTint">@color/purple_500</item>
+        <item name="endIconTint">@color/purple_500</item>
+        <item name="android:textColorHint">@color/header4</item>
+    </style>
+
+</resources>
+

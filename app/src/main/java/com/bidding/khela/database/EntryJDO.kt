@@ -1,0 +1,17 @@
+package com.bidding.khela.database
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
+import java.util.ArrayList
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class EntryJDO(@JsonProperty("dateLong") var dateLong : Long = 0,
+                    @JsonProperty("dateString") var dateString : String="",
+                    @JsonProperty("dateEntry") var dateEntry: List<Long> =  ArrayList(),
+                    @JsonProperty("entry") var entry: List<Int> =  ArrayList()) : Serializable {
+
+    override fun toString(): String {
+        return "EntryJDO(dateLong=$dateLong, dateString='$dateString', dateEntry=$dateEntry, entry=$entry)"
+    }
+}
