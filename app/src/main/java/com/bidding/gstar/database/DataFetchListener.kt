@@ -6,4 +6,5 @@ interface DataFetchListener {
     fun onLoginDataFetchSuccess(success: Boolean)
     fun onDataInsertSuccess(success: Boolean)
     fun onDataFetchFailure(error: Exception)
+    fun onDataDeleteSuccess(success: Boolean) {}
 }

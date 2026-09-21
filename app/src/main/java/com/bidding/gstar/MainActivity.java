@@ -61,4 +61,8 @@ public class MainActivity extends AppCompatActivity implements DataFetchListener
     @Override
     public void onDataFetchFailure(@NotNull Exception error) {
     }
+
+    @Override
+    public void onDataDeleteSuccess(boolean success) {
+    }
 }

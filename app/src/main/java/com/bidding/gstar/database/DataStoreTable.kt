@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.Source
 
-class DataStoreTable(private val dataBaseListner: DataFetchListener) {
+class DataStoreTable(private val dataBaseListner: DataFetchListener) : EntryRepository {
 
     var database = FirebaseFirestore.getInstance()
 
@@ -109,6 +109,27 @@ class DataStoreTable(private val dataBaseListner: DataFetchListener) {
             }
 
         return dataInserted
+    }
+
+    override fun saveDay(entry: EntryJDO) {
+        insertEntryData(entry)
+    }
+
+    override fun deleteDay(dateString: String) {
+        if (dateString.isBlank()) {
+            dataBaseListner.onDataDeleteSuccess(false)
+            return
+        }
+        database.collection("entry").document(dateString)
+            .delete()
+            .addOnSuccessListener {
+                Log.d("TAG", "Deleted entry document $dateString")
+                dataBaseListner.onDataDeleteSuccess(true)
+            }
+            .addOnFailureListener { error ->
+                Log.w("TAG", "Error deleting document $dateString", error)
+                dataBaseListner.onDataDeleteSuccess(false)
+            }
     }
 
     fun fetchCurrentDateEntry(dateString: String): EntryJDO {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="48dp"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/spacing_small"
+    android:paddingBottom="@dimen/spacing_small">
+
+    <TextView
+        android:id="@+id/edit_slot_index"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/edit_slot_patti"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/header1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="247" />
+
+    <TextView
+        android:id="@+id/edit_slot_meta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:textColor="@color/header4"
+        android:textSize="12sp"
+        tools:text="Single 3 · 04:00 AM" />
+
+    <ImageView
+        android:id="@+id/edit_slot_delete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/bg_khela_dialog_icon"
+        android:contentDescription="@string/khela_insert_delete_slot"
+        android:padding="8dp"
+        android:src="@drawable/ic_khela_delete"
+        android:tint="@color/khela_danger" />
+</LinearLayout>

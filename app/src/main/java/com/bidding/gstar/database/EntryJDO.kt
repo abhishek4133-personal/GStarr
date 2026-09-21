@@ -14,4 +14,25 @@ data class EntryJDO(@JsonProperty("dateLong") var dateLong : Long = 0,
     override fun toString(): String {
         return "EntryJDO(dateLong=$dateLong, dateString='$dateString', dateEntry=$dateEntry, entry=$entry)"
     }
+
+    fun hasSlot(index: Int): Boolean {
+        return index in entry.indices
+    }
+
+    fun withoutSlot(index: Int): EntryJDO {
+        if (!hasSlot(index)) {
+            return this
+        }
+        val values = entry.toMutableList()
+        val times = dateEntry.toMutableList()
+        values.removeAt(index)
+        if (index in times.indices) {
+            times.removeAt(index)
+        }
+        return copy(entry = values, dateEntry = times)
+    }
+
+    fun isEmptyDay(): Boolean {
+        return entry.isEmpty()
+    }
 }

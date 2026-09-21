@@ -41,4 +41,6 @@
     <color name="ripple_light">#1A040D7A</color>
     <color name="input_stroke">#CDD5E1</color>
     <color name="red_color">#990000</color>
+    <color name="khela_danger">#B42318</color>
+    <color name="khela_danger_soft">#FEF3F2</color>
 </resources>

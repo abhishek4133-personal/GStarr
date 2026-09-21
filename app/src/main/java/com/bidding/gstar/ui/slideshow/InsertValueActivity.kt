@@ -1,11 +1,17 @@
 package com.bidding.gstar.ui.slideshow
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +20,7 @@ import com.bidding.gstar.R
 import com.bidding.gstar.database.DataFetchListener
 import com.bidding.gstar.database.DataStoreTable
 import com.bidding.gstar.database.EntryJDO
+import com.bidding.gstar.database.EntryRepository
 import com.bidding.gstar.database.Helper
 import com.bidding.gstar.ui.adaptar.ChartTheme
 import com.bidding.gstar.ui.adminlogin.ChangePassword
@@ -24,10 +31,17 @@ import java.util.Locale
 
 class InsertValueActivity : AppCompatActivity(), DataFetchListener {
 
+    private enum class PendingOp { NONE, INSERT, DELETE_SLOT, DELETE_ALL }
+
     private val helper = Helper()
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+    private val timeFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
     private var mEntry = arrayListOf<Int>()
     private var mDateEntry = arrayListOf<Long>()
+    private var todayDateLong = 0L
+    private var pendingOp = PendingOp.NONE
+    private var pendingValues: ArrayList<Int>? = null
+    private var pendingTimes: ArrayList<Long>? = null
 
     private lateinit var pattiEdit: EditText
     private lateinit var submit: View
@@ -37,11 +51,17 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
     private lateinit var slotCount: TextView
     private lateinit var progress: View
     private lateinit var overlay: View
+    private lateinit var editSlotsContainer: LinearLayout
+    private lateinit var editEmpty: View
+    private lateinit var editDivider: View
+    private lateinit var clearTodayButton: View
+    private lateinit var repository: EntryRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.insert_value_layout)
 
+        repository = DataStoreTable(this)
         pattiEdit = findViewById(R.id.patti_edit)
         submit = findViewById(R.id.submit)
         previewRow = findViewById(R.id.preview_row)
@@ -50,11 +70,16 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
         slotCount = findViewById(R.id.slot_count)
         progress = findViewById(R.id.progress)
         overlay = findViewById(R.id.insert_overlay)
+        editSlotsContainer = findViewById(R.id.edit_slots_container)
+        editEmpty = findViewById(R.id.edit_empty)
+        editDivider = findViewById(R.id.edit_divider)
+        clearTodayButton = findViewById(R.id.clear_today_button)
 
         findViewById<View>(R.id.back).setOnClickListener { finish() }
         findViewById<View>(R.id.changePassword).setOnClickListener {
             startActivity(Intent(this, ChangePassword::class.java))
         }
+        clearTodayButton.setOnClickListener { confirmClearToday() }
         submit.setOnClickListener { saveEntry() }
         pattiEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -66,10 +91,13 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
 
         bindTodayCard(mEntry)
         showLoading(true)
-        DataStoreTable(this).fetchCurrentDateEntry(dateFormat.format(Date()))
+        DataStoreTable(this).fetchCurrentDateEntry(todayDateString())
     }
 
     private fun saveEntry() {
+        if (pendingOp != PendingOp.NONE) {
+            return
+        }
         if (mEntry.size >= 8) {
             Toast.makeText(this, R.string.khela_insert_max_today, Toast.LENGTH_SHORT).show()
             return
@@ -84,21 +112,104 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
             return
         }
 
+        pendingOp = PendingOp.INSERT
         showLoading(true)
         submit.isEnabled = false
         mEntry.add(pattiValue.toInt())
         mDateEntry.add(Date().time)
 
-        val entry = EntryJDO()
-        entry.dateLong = Date().time
-        entry.dateString = dateFormat.format(Date())
-        entry.entry = mEntry
-        entry.dateEntry = mDateEntry
-        DataStoreTable(this).insertEntryData(entry)
+        repository.saveDay(todayEntry(mEntry, mDateEntry))
+    }
+
+    private fun confirmSlotDelete(index: Int) {
+        if (pendingOp != PendingOp.NONE || index !in mEntry.indices) {
+            return
+        }
+        val patti = mEntry[index].toString()
+        showConfirmDialog(
+            title = getString(R.string.khela_insert_delete_slot_title, index + 1),
+            message = getString(R.string.khela_insert_delete_slot_message, patti)
+        ) {
+            deleteSlot(index)
+        }
+    }
+
+    private fun confirmClearToday() {
+        if (pendingOp != PendingOp.NONE || mEntry.isEmpty()) {
+            return
+        }
+        showConfirmDialog(
+            title = getString(R.string.khela_insert_clear_all_title),
+            message = getString(R.string.khela_insert_clear_all_message, todayDateString())
+        ) {
+            clearToday()
+        }
+    }
+
+    private fun deleteSlot(index: Int) {
+        if (!ensureOnline() || index !in mEntry.indices) {
+            return
+        }
+        val values = ArrayList(mEntry)
+        val times = ArrayList(mDateEntry)
+        values.removeAt(index)
+        if (index in times.indices) {
+            times.removeAt(index)
+        }
+        pendingValues = values
+        pendingTimes = times
+        showLoading(true)
+        if (values.isEmpty()) {
+            pendingOp = PendingOp.DELETE_ALL
+            repository.deleteDay(todayDateString())
+        } else {
+            pendingOp = PendingOp.DELETE_SLOT
+            repository.saveDay(todayEntry(values, times))
+        }
+    }
+
+    private fun clearToday() {
+        if (!ensureOnline()) {
+            return
+        }
+        pendingOp = PendingOp.DELETE_ALL
+        pendingValues = arrayListOf()
+        pendingTimes = arrayListOf()
+        showLoading(true)
+        repository.deleteDay(todayDateString())
+    }
+
+    private fun showConfirmDialog(title: String, message: String, onConfirm: () -> Unit) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_khela_confirm, null)
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogView)
+        dialog.setCancelable(true)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.86f).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialogView.findViewById<TextView>(R.id.confirm_title).text = title
+        dialogView.findViewById<TextView>(R.id.confirm_message).text = message
+        dialogView.findViewById<View>(R.id.confirm_cancel).setOnClickListener { dialog.dismiss() }
+        dialogView.findViewById<View>(R.id.confirm_delete).setOnClickListener {
+            dialog.dismiss()
+            onConfirm()
+        }
+        dialog.show()
+    }
+
+    private fun ensureOnline(): Boolean {
+        if (helper.isOnline(this)) {
+            return true
+        }
+        Toast.makeText(this, R.string.khela_insert_delete_offline, Toast.LENGTH_SHORT).show()
+        return false
     }
 
     private fun updatePreview(value: String) {
-        val ready = value.length == 3 && mEntry.size < 8
+        val ready = value.length == 3 && mEntry.size < 8 && pendingOp == PendingOp.NONE
         submit.isEnabled = ready
         if (value.length == 3) {
             previewRow.visibility = View.VISIBLE
@@ -175,6 +286,48 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
         }
         pattiEdit.isEnabled = values.size < 8
         updatePreview(pattiEdit.text.toString())
+        bindEditRows(theme)
+    }
+
+    private fun bindEditRows(theme: ChartTheme) {
+        editSlotsContainer.removeAllViews()
+        val hasResults = mEntry.isNotEmpty()
+        editEmpty.visibility = if (hasResults) View.GONE else View.VISIBLE
+        editDivider.visibility = if (hasResults) View.VISIBLE else View.GONE
+        clearTodayButton.isEnabled = hasResults && pendingOp == PendingOp.NONE
+        clearTodayButton.alpha = if (hasResults) 1f else 0.4f
+
+        if (!hasResults) {
+            return
+        }
+        mEntry.forEachIndexed { index, value ->
+            val row = layoutInflater.inflate(R.layout.item_insert_edit_slot, editSlotsContainer, false)
+            val indexView = row.findViewById<TextView>(R.id.edit_slot_index)
+            val pattiView = row.findViewById<TextView>(R.id.edit_slot_patti)
+            val metaView = row.findViewById<TextView>(R.id.edit_slot_meta)
+            val deleteView = row.findViewById<View>(R.id.edit_slot_delete)
+            val patti = value.toString()
+            val time = slotTime(index)
+
+            indexView.text = (index + 1).toString()
+            indexView.background = theme.roundedBox(theme.badge, dp(14f))
+            pattiView.text = patti
+            metaView.text = getString(
+                R.string.khela_insert_edit_meta,
+                toSingle(patti),
+                time
+            )
+            deleteView.contentDescription = getString(R.string.khela_insert_delete_slot, index + 1)
+            deleteView.setOnClickListener { confirmSlotDelete(index) }
+            editSlotsContainer.addView(row)
+        }
+    }
+
+    private fun slotTime(index: Int): String {
+        if (index !in mDateEntry.indices || mDateEntry[index] <= 0L) {
+            return getString(R.string.khela_detail_empty_time)
+        }
+        return timeFormat.format(Date(mDateEntry[index]))
     }
 
     private fun toSingle(raw: String): String {
@@ -186,9 +339,39 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
         return helper.convertToPattiValue(padded)
     }
 
+    private fun todayDateString(): String {
+        return dateFormat.format(Date())
+    }
+
+    private fun todayEntry(values: List<Int>, times: List<Long>): EntryJDO {
+        return EntryJDO(
+            dateLong = if (todayDateLong > 0L) todayDateLong else Date().time,
+            dateString = todayDateString(),
+            dateEntry = times,
+            entry = values
+        )
+    }
+
     private fun showLoading(loading: Boolean) {
         overlay.visibility = if (loading) View.VISIBLE else View.GONE
         progress.visibility = if (loading) View.VISIBLE else View.GONE
+        clearTodayButton.isEnabled = !loading && mEntry.isNotEmpty()
+    }
+
+    private fun applyPendingIfNeeded() {
+        pendingValues?.let { mEntry = it }
+        pendingTimes?.let { mDateEntry = it }
+        pendingValues = null
+        pendingTimes = null
+    }
+
+    private fun rollbackInsert() {
+        if (mEntry.isNotEmpty()) {
+            mEntry.removeAt(mEntry.lastIndex)
+        }
+        if (mDateEntry.isNotEmpty()) {
+            mDateEntry.removeAt(mDateEntry.lastIndex)
+        }
     }
 
     private fun dp(value: Float): Float {
@@ -199,6 +382,10 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
         val fetched = jdo as EntryJDO
         mEntry = ArrayList(fetched.entry)
         mDateEntry = ArrayList(fetched.dateEntry)
+        todayDateLong = fetched.dateLong
+        pendingOp = PendingOp.NONE
+        pendingValues = null
+        pendingTimes = null
         bindTodayCard(mEntry)
         showLoading(false)
     }
@@ -206,25 +393,61 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
     override fun onLoginDataFetchSuccess(success: Boolean) {}
 
     override fun onDataFetchFailure(error: Exception) {
+        pendingOp = PendingOp.NONE
         showLoading(false)
         bindTodayCard(mEntry)
     }
 
     override fun onDataInsertSuccess(success: Boolean) {
-        if (success) {
-            Toast.makeText(this, R.string.khela_insert_saved, Toast.LENGTH_SHORT).show()
-            pattiEdit.text = null
-            DataStoreTable(this).fetchCurrentDateEntry(dateFormat.format(Date()))
-        } else {
-            if (mEntry.isNotEmpty()) {
-                mEntry.removeAt(mEntry.lastIndex)
+        val operation = pendingOp
+        if (!success) {
+            if (operation == PendingOp.INSERT) {
+                rollbackInsert()
             }
-            if (mDateEntry.isNotEmpty()) {
-                mDateEntry.removeAt(mDateEntry.lastIndex)
-            }
+            pendingOp = PendingOp.NONE
+            pendingValues = null
+            pendingTimes = null
             showLoading(false)
             bindTodayCard(mEntry)
-            Toast.makeText(this, R.string.khela_insert_failed, Toast.LENGTH_SHORT).show()
+            val message = if (operation == PendingOp.INSERT) {
+                R.string.khela_insert_failed
+            } else {
+                R.string.khela_insert_delete_failed
+            }
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            return
         }
+        if (operation == PendingOp.DELETE_SLOT) {
+            applyPendingIfNeeded()
+            pendingOp = PendingOp.NONE
+            Toast.makeText(this, R.string.khela_insert_delete_success, Toast.LENGTH_SHORT).show()
+            pattiEdit.text = null
+            DataStoreTable(this).fetchCurrentDateEntry(todayDateString())
+            return
+        }
+        pendingOp = PendingOp.NONE
+        Toast.makeText(this, R.string.khela_insert_saved, Toast.LENGTH_SHORT).show()
+        pattiEdit.text = null
+        DataStoreTable(this).fetchCurrentDateEntry(todayDateString())
+    }
+
+    override fun onDataDeleteSuccess(success: Boolean) {
+        if (!success) {
+            pendingOp = PendingOp.NONE
+            pendingValues = null
+            pendingTimes = null
+            showLoading(false)
+            Toast.makeText(this, R.string.khela_insert_delete_failed, Toast.LENGTH_SHORT).show()
+            return
+        }
+        mEntry = arrayListOf()
+        mDateEntry = arrayListOf()
+        pendingOp = PendingOp.NONE
+        pendingValues = null
+        pendingTimes = null
+        todayDateLong = 0L
+        Toast.makeText(this, R.string.khela_insert_clear_success, Toast.LENGTH_SHORT).show()
+        bindTodayCard(mEntry)
+        showLoading(false)
     }
 }

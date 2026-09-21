@@ -181,6 +181,8 @@
                     android:id="@+id/today_chart_card"
                     layout="@layout/referral_item_layout" />
 
+                <include layout="@layout/layout_insert_edit" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

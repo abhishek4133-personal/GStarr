@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_today_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_standard"
+    android:layout_marginEnd="@dimen/spacing_standard"
+    app:cardBackgroundColor="@color/chart_card"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/spacing_standard"
+        android:paddingTop="@dimen/spacing_standard"
+        android:paddingEnd="@dimen/spacing_standard"
+        android:paddingBottom="@dimen/spacing_standard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_khela_dialog_icon">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/khela_insert_edit_title"
+                    android:src="@drawable/ic_khela_delete"
+                    android:tint="@color/khela_danger" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/khela_insert_edit_title"
+                    android:textColor="@color/header1"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/edit_today_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/khela_insert_edit_subtitle"
+                    android:textColor="@color/header4"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edit_slots_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/edit_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:text="@string/khela_insert_edit_empty"
+            android:textColor="@color/header5"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/edit_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="#F0E4E4" />
+
+        <LinearLayout
+            android:id="@+id/clear_today_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@drawable/bg_khela_delete_all"
+            android:clickable="true"
+            android:contentDescription="@string/khela_insert_clear_all"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@string/khela_insert_clear_all"
+                android:src="@drawable/ic_khela_delete"
+                android:tint="@color/khela_danger" />
+
+            <TextView
+                android:id="@+id/clear_today_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/khela_insert_clear_all"
+                android:textColor="@color/khela_danger"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
