@@ -1,0 +1,2 @@
+-keep class com.bidding.gstar.GstarApplication { *; }
+-keep class com.bidding.gstar.MainActivity { *; }

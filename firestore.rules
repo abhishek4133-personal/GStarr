@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public chart: HomeFragment reads the full collection without Firebase Auth.
+    match /entry/{documentId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Custom admin login stores username/password in Firestore, not Firebase Auth.
+    match /loginData/{documentId} {
+      allow read, write: if true;
+    }
+  }
+}
