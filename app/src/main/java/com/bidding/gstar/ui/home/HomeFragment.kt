@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.home
+package com.bidding.gstar.ui.home
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,20 +12,22 @@ import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.bidding.khela.R
-import com.bidding.khela.database.DataFetchListener
-import com.bidding.khela.database.DataStoreTable
-import com.bidding.khela.database.EntryJDO
-import com.bidding.khela.database.Helper
-import com.bidding.khela.ui.adaptar.ChartAdapter
-import com.bidding.khela.ui.adaptar.ChartTheme
-import com.bidding.khela.ui.slideshow.InsertValueActivity
-import com.bidding.khela.utils.SessionManager
+import com.bidding.gstar.R
+import com.bidding.gstar.database.DataFetchListener
+import com.bidding.gstar.database.DataStoreTable
+import com.bidding.gstar.database.EntryJDO
+import com.bidding.gstar.database.Helper
+import com.bidding.gstar.ui.adaptar.ChartAdapter
+import com.bidding.gstar.ui.adaptar.ChartTheme
+import com.bidding.gstar.ui.slideshow.InsertValueActivity
+import com.bidding.gstar.utils.SessionManager
+import com.google.firebase.firestore.FirebaseFirestoreException
 import java.util.Collections
 
 class HomeFragment : Fragment() {
@@ -33,6 +35,8 @@ class HomeFragment : Fragment() {
     private lateinit var lListView: ListView
     private lateinit var mProgress: ProgressBar
     private lateinit var emptyState: View
+    private lateinit var emptyTitle: TextView
+    private lateinit var emptySubtitle: TextView
     private lateinit var refreshButton: ImageView
     private lateinit var adminButton: ImageView
     private lateinit var sessionManager: SessionManager
@@ -56,6 +60,8 @@ class HomeFragment : Fragment() {
         lListView = root.findViewById(R.id.list_item)
         mProgress = root.findViewById(R.id.progress)
         emptyState = root.findViewById(R.id.empty_state)
+        emptyTitle = root.findViewById(R.id.empty_title)
+        emptySubtitle = root.findViewById(R.id.empty_subtitle)
         refreshButton = root.findViewById(R.id.refresh_button)
         adminButton = root.findViewById(R.id.admin_button)
         
@@ -120,7 +126,7 @@ class HomeFragment : Fragment() {
         }
 
         LocalBroadcastManager.getInstance(requireContext())
-            .registerReceiver(mUpdateStatus, IntentFilter("com.bidding.khela.fetch"))
+            .registerReceiver(mUpdateStatus, IntentFilter("com.bidding.gstar.fetch"))
         return root
     }
 
@@ -148,6 +154,8 @@ class HomeFragment : Fragment() {
             emptyState.visibility = View.GONE
             isLoading = true
             DataStoreTable(lister).fetchEntryList(fragmentContext)
+        } else {
+            showChartState(hasData = false, isError = true)
         }
     }
 
@@ -215,14 +223,59 @@ class HomeFragment : Fragment() {
             chartAdapter = ChartAdapter(fragmentContext, mEntryList)
             chartAdapter?.setShowSingles(showSingles)
             lListView.adapter = chartAdapter
-            
-            emptyState.visibility = if (mEntryList.isEmpty()) View.VISIBLE else View.GONE
-            lListView.visibility = if (mEntryList.isEmpty()) View.GONE else View.VISIBLE
-            mProgress.visibility = View.GONE
+
+            showChartState(hasData = mEntryList.isNotEmpty(), isError = false)
+        }
+
+        override fun onDataFetchFailure(error: Exception) {
+            if (!isAdded || view == null) {
+                return
+            }
+            isLoading = false
+            hasMoreData = false
+            showChartState(
+                hasData = mEntryList.isNotEmpty(),
+                isError = mEntryList.isEmpty(),
+                isPermissionDenied = isPermissionDenied(error)
+            )
         }
 
         override fun onLoginDataFetchSuccess(success: Boolean) {}
         override fun onDataInsertSuccess(success: Boolean) {}
+    }
+
+    private fun showChartState(
+        hasData: Boolean,
+        isError: Boolean,
+        isPermissionDenied: Boolean = false
+    ) {
+        mProgress.visibility = View.GONE
+        if (hasData) {
+            emptyState.visibility = View.GONE
+            lListView.visibility = View.VISIBLE
+            return
+        }
+        lListView.visibility = View.GONE
+        emptyState.visibility = View.VISIBLE
+        when {
+            isPermissionDenied -> {
+                emptyTitle.setText(R.string.khela_chart_permission_title)
+                emptySubtitle.setText(R.string.khela_chart_permission_subtitle)
+            }
+            isError -> {
+                emptyTitle.setText(R.string.khela_chart_error_title)
+                emptySubtitle.setText(R.string.khela_chart_error_subtitle)
+            }
+            else -> {
+                emptyTitle.setText(R.string.khela_chart_empty_title)
+                emptySubtitle.setText(R.string.khela_chart_empty_subtitle)
+            }
+        }
+    }
+
+    private fun isPermissionDenied(error: Exception): Boolean {
+        return error is FirebaseFirestoreException &&
+            error.code == FirebaseFirestoreException.Code.PERMISSION_DENIED
     }
 
     override fun onResume() {
@@ -235,6 +288,8 @@ class HomeFragment : Fragment() {
             mProgress.visibility = View.VISIBLE
             isLoading = true
             DataStoreTable(lister).fetchEntryList(fragmentContext)
+        } else {
+            showChartState(hasData = mEntryList.isNotEmpty(), isError = mEntryList.isEmpty())
         }
     }
 

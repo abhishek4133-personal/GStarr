@@ -1,8 +1,8 @@
-package com.bidding.khela.ui.adaptar;
+package com.bidding.gstar.ui.adaptar;
 
 import android.graphics.drawable.GradientDrawable;
 
-import com.bidding.khela.database.EntryJDO;
+import com.bidding.gstar.database.EntryJDO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

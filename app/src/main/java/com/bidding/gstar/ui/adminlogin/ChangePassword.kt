@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.adminlogin
+package com.bidding.gstar.ui.adminlogin
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,9 +8,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bidding.khela.R
-import com.bidding.khela.database.DataFetchListener
-import com.bidding.khela.database.DataStoreTable
+import com.bidding.gstar.R
+import com.bidding.gstar.database.DataFetchListener
+import com.bidding.gstar.database.DataStoreTable
 import com.google.android.material.textfield.TextInputLayout
 
 class ChangePassword : AppCompatActivity(), DataFetchListener {
@@ -91,4 +91,5 @@ class ChangePassword : AppCompatActivity(), DataFetchListener {
     override fun onDataFetchSuccess(jdo: Any) {}
     override fun onLoginDataFetchSuccess(success: Boolean) {}
     override fun onDataInsertSuccess(success: Boolean) {}
+    override fun onDataFetchFailure(error: Exception) {}
 }

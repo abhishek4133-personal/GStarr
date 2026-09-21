@@ -1,8 +1,8 @@
-package com.bidding.khela;
+package com.bidding.gstar;
 
 import android.os.Bundle;
 
-import com.bidding.khela.database.DataFetchListener;
+import com.bidding.gstar.database.DataFetchListener;
 import com.google.firebase.FirebaseApp;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,5 +56,9 @@ public class MainActivity extends AppCompatActivity implements DataFetchListener
 
     @Override
     public void onDataInsertSuccess(boolean success) {
+    }
+
+    @Override
+    public void onDataFetchFailure(@NotNull Exception error) {
     }
 }

@@ -1,4 +1,4 @@
-package com.bidding.khela.database
+package com.bidding.gstar.database
 
 import android.content.Context
 import android.net.ConnectivityManager

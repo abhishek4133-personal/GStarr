@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.adminlogin
+package com.bidding.gstar.ui.adminlogin
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,12 +17,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.bidding.khela.R
-import com.bidding.khela.database.DataFetchListener
-import com.bidding.khela.database.DataStoreTable
-import com.bidding.khela.database.Helper
-import com.bidding.khela.ui.slideshow.InsertValueActivity
-import com.bidding.khela.utils.SessionManager
+import com.bidding.gstar.R
+import com.bidding.gstar.database.DataFetchListener
+import com.bidding.gstar.database.DataStoreTable
+import com.bidding.gstar.database.Helper
+import com.bidding.gstar.ui.slideshow.InsertValueActivity
+import com.bidding.gstar.utils.SessionManager
 import java.lang.Exception
 
 class AdminLoginFragment : Fragment(), DataFetchListener {
@@ -59,7 +59,7 @@ class AdminLoginFragment : Fragment(), DataFetchListener {
             }
         }
 
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(mUpdateStatus, IntentFilter("com.bidding.khela.login"))
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(mUpdateStatus, IntentFilter("com.bidding.gstar.login"))
         return root
     }
 
@@ -116,6 +116,7 @@ class AdminLoginFragment : Fragment(), DataFetchListener {
 
     override fun onDataFetchSuccess(jdo: Any) {}
     override fun onDataInsertSuccess(success: Boolean) {}
+    override fun onDataFetchFailure(error: Exception) {}
 
     override fun onDestroyView() {
         context?.let { hostContext ->

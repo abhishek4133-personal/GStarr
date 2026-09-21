@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.bidding.khela" />
-                  <option name="mobileSdkAppId" value="1:338634741854:android:2f44402f274f9605cf3ccf" />
-                  <option name="projectId" value="gstarff-f0a24" />
-                  <option name="projectNumber" value="338634741854" />
+                  <option name="appId" value="com.bidding.gstar" />
+                  <option name="mobileSdkAppId" value="1:564471026235:android:307a250d6580189f0c821e" />
+                  <option name="projectId" value="gstarff-android" />
+                  <option name="projectNumber" value="564471026235" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

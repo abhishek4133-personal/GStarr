@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.adaptar;
+package com.bidding.gstar.ui.adaptar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
-import com.bidding.khela.R;
-import com.bidding.khela.database.EntryJDO;
-import com.bidding.khela.database.Helper;
+import com.bidding.gstar.R;
+import com.bidding.gstar.database.EntryJDO;
+import com.bidding.gstar.database.Helper;
 
 import java.util.List;
 import java.util.Locale;

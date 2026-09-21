@@ -1,4 +1,4 @@
-package com.bidding.khela.database
+package com.bidding.gstar.database
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty

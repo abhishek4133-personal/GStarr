@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.slideshow;
+package com.bidding.gstar.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

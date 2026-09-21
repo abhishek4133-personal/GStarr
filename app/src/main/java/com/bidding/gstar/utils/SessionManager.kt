@@ -1,4 +1,4 @@
-package com.bidding.khela.utils
+package com.bidding.gstar.utils
 
 import android.content.Context
 import android.content.SharedPreferences

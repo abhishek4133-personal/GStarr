@@ -1,4 +1,4 @@
-package com.bidding.khela;
+package com.bidding.gstar;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.bidding.khela", appContext.getPackageName());
+        assertEquals("com.bidding.gstar", appContext.getPackageName());
     }
 }

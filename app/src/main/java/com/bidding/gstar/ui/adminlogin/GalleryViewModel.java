@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.adminlogin;
+package com.bidding.gstar.ui.adminlogin;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -16,6 +16,10 @@
 
     <string name="khela_chart_empty_title">No chart data yet</string>
     <string name="khela_chart_empty_subtitle">Daily patti entries will appear here as cards</string>
+    <string name="khela_chart_error_title">Couldn\'t load chart</string>
+    <string name="khela_chart_error_subtitle">Chart data could not be loaded from the server. Pull refresh after the Firebase project is available.</string>
+    <string name="khela_chart_permission_title">Firestore access blocked</string>
+    <string name="khela_chart_permission_subtitle">This Firebase project is denying chart reads. Publish firestore.rules for gstarff-android, then refresh.</string>
     <string name="khela_chart_empty_slot">-</string>
     <string name="khela_chart_legend_patti">Patti</string>
     <string name="khela_chart_legend_single">Single</string>

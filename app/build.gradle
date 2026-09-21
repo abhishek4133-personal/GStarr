@@ -1,21 +1,21 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.bidding.khela'
-    compileSdkVersion 34
+    namespace 'com.bidding.gstar'
+    compileSdk 36
 
     defaultConfig {
-        applicationId "com.bidding.khela"
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode 2
-        versionName "1.0"
+        applicationId "com.bidding.gstar"
+        minSdk 21
+        targetSdk 36
+        versionCode 3
+        versionName "1.2"
         multiDexEnabled true
+        multiDexKeepProguard file('multidex-keep.pro')
         testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnitRunner"
     }
 
@@ -31,6 +31,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    packaging {
+        jniLibs {
+            useLegacyPackaging false
+        }
     }
 }
 

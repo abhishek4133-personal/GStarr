@@ -1,17 +1,20 @@
-package com.bidding.khela.database
+package com.bidding.gstar.database
 
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Source
 
 class DataStoreTable(private val dataBaseListner: DataFetchListener) {
 
     var database = FirebaseFirestore.getInstance()
 
     fun login(email: String, password: String, context: Context): Boolean {
-        val intent = Intent("com.bidding.khela.login")
+        val intent = Intent("com.bidding.gstar.login")
         var response = false
 
         database.collection("loginData")
@@ -126,41 +129,68 @@ class DataStoreTable(private val dataBaseListner: DataFetchListener) {
             }
             .addOnFailureListener { e ->
                 Log.e("TAG", "Error fetching current date document", e)
-                dataBaseListner.onDataFetchSuccess(entryJdo)
+                dataBaseListner.onDataFetchFailure(e)
             }
         return entryJdo
     }
 
     fun fetchEntryList(context: Context) {
-        val intent = Intent("com.bidding.khela.fetch")
         database.collection("entry")
-            .get()
+            .get(Source.SERVER)
             .addOnSuccessListener { snapshot ->
-                val entryListJdo = arrayListOf<EntryJDO>()
-                if (snapshot != null && !snapshot.isEmpty) {
-                    for (document in snapshot) {
-                        val entryJdo = mapToEntry(document.data)
-                        entryListJdo.add(entryJdo)
-                        Log.e("TAG", "Data from server => ${entryJdo.dateString} ${entryJdo.entry}")
-                    }
-                    Log.e("TAG", "Fetched ${entryListJdo.size} entry documents")
-                    dataBaseListner.onDataFetchSuccess(entryListJdo)
-                    intent.putExtra("data", entryListJdo)
-                    intent.putExtra("dataFetched", true)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+                deliverEntryList(snapshot, context)
+            }
+            .addOnFailureListener { serverError ->
+                if (isPermissionDenied(serverError)) {
+                    Log.e(
+                        "TAG",
+                        "Firestore rejected entry reads. Publish firestore.rules on project gstarff-android.",
+                        serverError
+                    )
                 } else {
-                    Log.e("TAG", "No such document")
-                    dataBaseListner.onDataFetchSuccess(entryListJdo)
-                    intent.putExtra("dataFetched", false)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+                    Log.e("TAG", "Server fetch failed, trying cache", serverError)
                 }
+                database.collection("entry")
+                    .get(Source.CACHE)
+                    .addOnSuccessListener { cacheSnapshot ->
+                        if (cacheSnapshot != null && !cacheSnapshot.isEmpty) {
+                            deliverEntryList(cacheSnapshot, context)
+                        } else {
+                            notifyEntryListFailure(serverError, context)
+                        }
+                    }
+                    .addOnFailureListener {
+                        notifyEntryListFailure(serverError, context)
+                    }
             }
-            .addOnFailureListener { e ->
-                Log.e("TAG", "Error fetching entry list", e)
-                dataBaseListner.onDataFetchSuccess(arrayListOf<EntryJDO>())
-                intent.putExtra("dataFetched", false)
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
-            }
+    }
+
+    private fun deliverEntryList(snapshot: QuerySnapshot, context: Context) {
+        val intent = Intent("com.bidding.gstar.fetch")
+        val entryListJdo = arrayListOf<EntryJDO>()
+        for (document in snapshot) {
+            val data = document.data ?: continue
+            val entryJdo = mapToEntry(data)
+            entryListJdo.add(entryJdo)
+            Log.e("TAG", "Data from server => ${entryJdo.dateString} ${entryJdo.entry}")
+        }
+        Log.e("TAG", "Fetched ${entryListJdo.size} entry documents cache=${snapshot.metadata.isFromCache}")
+        dataBaseListner.onDataFetchSuccess(entryListJdo)
+        intent.putExtra("dataFetched", entryListJdo.isNotEmpty())
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+    }
+
+    private fun notifyEntryListFailure(error: Exception, context: Context) {
+        Log.e("TAG", "Error fetching entry list", error)
+        dataBaseListner.onDataFetchFailure(error)
+        val intent = Intent("com.bidding.gstar.fetch")
+        intent.putExtra("dataFetched", false)
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+    }
+
+    private fun isPermissionDenied(error: Exception): Boolean {
+        return error is FirebaseFirestoreException &&
+            error.code == FirebaseFirestoreException.Code.PERMISSION_DENIED
     }
 
     private fun mapToEntry(map: Map<String, Any?>): EntryJDO {

@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "338634741854",
-    "project_id": "gstarff-f0a24",
-    "storage_bucket": "gstarff-f0a24.appspot.com"
+    "project_number": "564471026235",
+    "project_id": "gstarff-android",
+    "storage_bucket": "gstarff-android.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:338634741854:android:2f44402f274f9605cf3ccf",
+        "mobilesdk_app_id": "1:564471026235:android:307a250d6580189f0c821e",
         "android_client_info": {
-          "package_name": "com.bidding.khela"
+          "package_name": "com.bidding.gstar"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "338634741854-d0tms7gjmf32vcs4n6d60p1aqdthpo9f.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBlVOpyeoZ8QyZkkrPbMCSAQNm3z_nS7Q0"
+          "current_key": "AIzaSyD3L4gUfDo_izommQPCtqqVBMFfidyxVPY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "338634741854-d0tms7gjmf32vcs4n6d60p1aqdthpo9f.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

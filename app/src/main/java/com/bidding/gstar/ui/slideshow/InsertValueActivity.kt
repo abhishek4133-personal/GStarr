@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.slideshow
+package com.bidding.gstar.ui.slideshow
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,13 +10,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.bidding.khela.R
-import com.bidding.khela.database.DataFetchListener
-import com.bidding.khela.database.DataStoreTable
-import com.bidding.khela.database.EntryJDO
-import com.bidding.khela.database.Helper
-import com.bidding.khela.ui.adaptar.ChartTheme
-import com.bidding.khela.ui.adminlogin.ChangePassword
+import com.bidding.gstar.R
+import com.bidding.gstar.database.DataFetchListener
+import com.bidding.gstar.database.DataStoreTable
+import com.bidding.gstar.database.EntryJDO
+import com.bidding.gstar.database.Helper
+import com.bidding.gstar.ui.adaptar.ChartTheme
+import com.bidding.gstar.ui.adminlogin.ChangePassword
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Date
@@ -204,6 +204,11 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
     }
 
     override fun onLoginDataFetchSuccess(success: Boolean) {}
+
+    override fun onDataFetchFailure(error: Exception) {
+        showLoading(false)
+        bindTodayCard(mEntry)
+    }
 
     override fun onDataInsertSuccess(success: Boolean) {
         if (success) {

@@ -1,4 +1,4 @@
-package com.bidding.khela;
+package com.bidding.gstar;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.bidding.khela.ui.home
+package com.bidding.gstar.ui.home
 
 import android.os.Bundle
 import android.view.View
@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.bidding.khela.R
-import com.bidding.khela.database.EntryJDO
-import com.bidding.khela.database.Helper
-import com.bidding.khela.ui.adaptar.ChartTheme
+import com.bidding.gstar.R
+import com.bidding.gstar.database.EntryJDO
+import com.bidding.gstar.database.Helper
+import com.bidding.gstar.ui.adaptar.ChartTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
