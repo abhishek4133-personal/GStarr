@@ -132,6 +132,10 @@ class DataStoreTable(private val dataBaseListner: DataFetchListener) : EntryRepo
             }
     }
 
+    override fun fetchAllDays(context: Context) {
+        fetchEntryList(context)
+    }
+
     fun fetchCurrentDateEntry(dateString: String): EntryJDO {
         val entryJdo = EntryJDO()
         database.collection("entry")

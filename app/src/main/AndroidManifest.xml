@@ -38,6 +38,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Khela.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name="com.bidding.gstar.ui.adminlogin.ManageDatesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Khela.NoActionBar"/>
     </application>
 
 </manifest>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_standard"
+    android:layout_marginEnd="@dimen/spacing_standard"
+    android:layout_marginBottom="@dimen/spacing_small"
+    app:cardBackgroundColor="@color/chart_card"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/spacing_standard"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingEnd="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_medium">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/manage_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:textColor="@color/header1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="21 Sep 2026" />
+
+            <TextView
+                android:id="@+id/manage_meta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/header4"
+                android:textSize="13sp"
+                tools:text="Monday · 5 of 8 slots" />
+
+            <TextView
+                android:id="@+id/manage_patti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:textColor="@color/app_header"
+                android:textSize="13sp"
+                tools:text="344 · 343 · 543 · 546 · 322" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/manage_delete"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:background="@drawable/bg_khela_dialog_icon"
+            android:contentDescription="@string/khela_detail_delete_confirm"
+            android:padding="11dp"
+            android:src="@drawable/ic_khela_delete"
+            android:tint="@color/khela_danger" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

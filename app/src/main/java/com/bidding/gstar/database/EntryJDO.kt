@@ -35,4 +35,12 @@ data class EntryJDO(@JsonProperty("dateLong") var dateLong : Long = 0,
     fun isEmptyDay(): Boolean {
         return entry.isEmpty()
     }
+
+    fun filledCount(): Int {
+        return entry.size
+    }
+
+    fun pattiPreview(): String {
+        return entry.joinToString(" · ")
+    }
 }

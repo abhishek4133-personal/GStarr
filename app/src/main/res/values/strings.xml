@@ -64,6 +64,16 @@
     <string name="khela_insert_clear_success">Today\'s results cleared</string>
     <string name="khela_insert_delete_failed">Could not delete. Try again.</string>
     <string name="khela_insert_delete_offline">Connect to the internet to delete</string>
+    <string name="khela_insert_manage_dates">Delete other dates</string>
+    <string name="khela_manage_dates_title">All dates</string>
+    <string name="khela_manage_dates_empty_title">No dates to delete</string>
+    <string name="khela_manage_dates_empty_subtitle">Saved chart days will appear here</string>
+    <string name="khela_manage_dates_meta">%1$s · %2$d of 8 slots</string>
+    <string name="khela_manage_dates_delete">Delete %1$s</string>
+    <string name="khela_manage_dates_delete_title">Delete %1$s?</string>
+    <string name="khela_manage_dates_delete_message">This will permanently remove every result for this date from Firestore.</string>
+    <string name="khela_manage_dates_deleted">%1$s deleted</string>
+    <string name="khela_manage_dates_empty_patti">No values</string>
     <string name="khela_password_title">Change password</string>
     <string name="khela_password_subtitle">Choose a new password for admin access</string>
     <string name="khela_password_new">New password</string>

@@ -188,6 +188,55 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_standard"
                     android:layout_marginEnd="@dimen/spacing_standard"
+                    app:cardBackgroundColor="@color/chart_card"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/manageDates"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_standard"
+                        android:paddingTop="@dimen/spacing_standard"
+                        android:paddingEnd="@dimen/spacing_standard"
+                        android:paddingBottom="@dimen/spacing_standard">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="@string/khela_insert_manage_dates"
+                            android:src="@drawable/ic_khela_calendar"
+                            android:tint="@color/app_header" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_standard"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/khela_insert_manage_dates"
+                            android:textColor="@color/header1"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="@string/khela_insert_manage_dates"
+                            android:rotation="180"
+                            android:src="@drawable/ic_khela_back"
+                            android:tint="@color/header4" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_standard"
+                    android:layout_marginEnd="@dimen/spacing_standard"
                     android:layout_marginBottom="@dimen/spacing_standard"
                     app:cardBackgroundColor="@color/chart_card"
                     app:cardCornerRadius="16dp"

@@ -24,6 +24,7 @@ import com.bidding.gstar.database.EntryRepository
 import com.bidding.gstar.database.Helper
 import com.bidding.gstar.ui.adaptar.ChartTheme
 import com.bidding.gstar.ui.adminlogin.ChangePassword
+import com.bidding.gstar.ui.adminlogin.ManageDatesActivity
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Date
@@ -42,6 +43,7 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
     private var pendingOp = PendingOp.NONE
     private var pendingValues: ArrayList<Int>? = null
     private var pendingTimes: ArrayList<Long>? = null
+    private var hasResumed = false
 
     private lateinit var pattiEdit: EditText
     private lateinit var submit: View
@@ -79,6 +81,9 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
         findViewById<View>(R.id.changePassword).setOnClickListener {
             startActivity(Intent(this, ChangePassword::class.java))
         }
+        findViewById<View>(R.id.manageDates).setOnClickListener {
+            startActivity(Intent(this, ManageDatesActivity::class.java))
+        }
         clearTodayButton.setOnClickListener { confirmClearToday() }
         submit.setOnClickListener { saveEntry() }
         pattiEdit.addTextChangedListener(object : TextWatcher {
@@ -92,6 +97,14 @@ class InsertValueActivity : AppCompatActivity(), DataFetchListener {
         bindTodayCard(mEntry)
         showLoading(true)
         DataStoreTable(this).fetchCurrentDateEntry(todayDateString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (hasResumed && pendingOp == PendingOp.NONE) {
+            DataStoreTable(this).fetchCurrentDateEntry(todayDateString())
+        }
+        hasResumed = true
     }
 
     private fun saveEntry() {
